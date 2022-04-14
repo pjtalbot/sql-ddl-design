@@ -58,16 +58,27 @@ CREATE TABLE "Players" (
      )
 );
 
+CREATE TABLE "Player_Team" (
+    'player_id' int NOT NULL FOREIGN KEY REFERENCES Players(id),
+    'team_id' int NOT NULL FOREIGN KEY REFERENCES Teams(id)
+    'date_joined'timestamp NOT NULL,
+    'date_left' timestamp
+    CONSTRAINT 'pk_Player_team' PRIMARY KEY (
+        'player_id', 'team_id'
+    )
+
+)
+
 CREATE TABLE "Matches" (
     "id" int   NOT NULL,
     "home_team_id" int   NOT NULL,
     "visiting_team_id" int   NOT NULL,
     "date" date   NOT NULL,
-    "stadium_id" int   NOT NULL,
-    "head_ref_id" int   NOT NULL,
-    "assist_ref1_id" int   NOT NULL,
-    "assist_ref2_id" int   NOT NULL,
-    "season_id" int   NOT NULL,
+    "stadium_id" int   NOT NULL FOREIGN KEY REFERENCES Stadiums(id),
+    "head_ref_id" int   NOT NULL FOREIGN KEY REFERENCES Referees(id),
+    "assist_ref1_id" int   NOT NULL FOREIGN KEY REFERENCES Referees(id),
+    "assist_ref2_id" int   NOT NULL FOREIGN KEY REFERENCES Referees(id),
+    "season_id" int   NOT NULL FOREIGN KEY REFERENCES Seasons(id),
     CONSTRAINT "pk_Matches" PRIMARY KEY (
         "id"
      )
@@ -75,7 +86,7 @@ CREATE TABLE "Matches" (
 
 CREATE TABLE "Goals" (
     "id" int   NOT NULL,
-    "player_id" int   NOT NULL,
+    "player_id" int   NOT NULL FOREIGN Key,
     "match_id" int   NOT NULL,
     "gtime" timestamp   NOT NULL,
     CONSTRAINT "pk_Goals" PRIMARY KEY (
